@@ -158,7 +158,7 @@ cover.style.backgroundColor = "rgba(" + r + ", " + g + ", " + b + ", 0.5)";
 
 document.body.appendChild(cover);
 
-var enemyVelocity = 5;
+var enemyVelocity = 7;
 var enemyScore = 0,
     playerScore = 0;
 
@@ -214,8 +214,8 @@ ctx.fillRect(0, 0, width, height);
 var ball = {
     _x: width / 2, // center the ball
     _y: height / 2, // center the ball
-    _vx: -4,
-    _vy: 4,
+    _vx: -4.7,
+    _vy: 4.7,
     _size: 6,
 
     update: function() {
@@ -231,8 +231,8 @@ var ball = {
     }
 };
 
-var playerPaddle = paddle.create(0, 0, 10, 100);
-var enemyPaddle = paddle.create(width - 10, 0, 10, 100);
+var playerPaddle = paddle.create(0, 0, 10, 150);
+var enemyPaddle = paddle.create(width - 10, 0, 10, 150);
 
 document.body.addEventListener("mousemove", mouseMoveHandler);
 
@@ -280,17 +280,24 @@ reset();
     }
 }
 
-    var enemyPos = enemyPaddle.getY();
+
+let enemyPos = enemyPaddle.getY();
+
+if(enemyPos < ball._y) {
+  enemyVelocity = 7;
+} else {
+  enemyVelocity = -7;
+}
 
 
 // if the paddle is at the top of the screen, start moving down
 if(enemyPos < 0) {
-    enemyVelocity *= -1;
+    enemyPaddle._y = 0;
 }
 
 // if the paddle is at the bottom of the screen, start moving up
 if(enemyPos + enemyPaddle.getHeight() > height) {
-    enemyVelocity *= -1;
+    enemyPaddle._y = height - enemyPaddle.getHeight();
 }
 
     // update the position of the enemy paddle
